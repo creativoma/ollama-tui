@@ -17,7 +17,7 @@ from textual.binding import Binding
 from textual.containers import Container, Horizontal, Vertical, ScrollableContainer
 from textual.widgets import (
     Header, Footer, Static, Button, Label, Input,
-    DataTable, RichLog, ProgressBar
+    DataTable, RichLog, ProgressBar, TextArea
 )
 from textual.screen import Screen, ModalScreen
 from textual.reactive import reactive
@@ -159,7 +159,7 @@ class ConfirmDialog(ModalScreen):
 class ChatScreen(Screen):
     BINDINGS = [
         Binding("escape", "app.pop_screen", "Back"),
-        Binding("ctrl+c", "app.pop_screen", "Quit"),
+        Binding("ctrl+s", "send", "Send"),
     ]
 
     DEFAULT_CSS = """
@@ -185,7 +185,7 @@ class ChatScreen(Screen):
     }
     #input-row {
         dock: bottom;
-        height: 5;
+        height: 8;
         margin: 1;
     }
     #chat-input {
@@ -200,6 +200,7 @@ class ChatScreen(Screen):
     #send-btn {
         width: 12;
         margin-left: 1;
+        height: 100%;
         background: #da7756;
         color: #0a0a0a;
         border: solid #da7756;
@@ -222,12 +223,12 @@ class ChatScreen(Screen):
         self.history = []
 
     def compose(self) -> ComposeResult:
-        yield Static(f"  chat  /  {self.model_name}   [dim]esc to go back[/]", id="chat-title")
+        yield Static(f"  chat  /  {self.model_name}   [dim]esc to go back  ·  ctrl+s to send[/]", id="chat-title")
         yield RichLog(id="chat-log", markup=True, wrap=True)
         yield Static("", id="thinking-indicator")
         with Horizontal(id="input-row"):
-            yield Input(placeholder="Type a message...", id="chat-input")
-            yield Button("Send ↵", variant="primary", id="send-btn")
+            yield TextArea(id="chat-input")
+            yield Button("Send\nctrl+s", variant="primary", id="send-btn")
         yield Footer()
 
     def on_mount(self):
@@ -235,16 +236,16 @@ class ChatScreen(Screen):
         log.write(f"[dim]Connected to [bold]{self.model_name}[/]. Type something to start.[/]")
         self.query_one("#chat-input").focus()
 
-    @on(Input.Submitted, "#chat-input")
     @on(Button.Pressed, "#send-btn")
-    def send_message(self):
-        inp = self.query_one("#chat-input", Input)
-        msg = inp.value.strip()
+    def action_send(self):
+        inp = self.query_one("#chat-input", TextArea)
+        msg = inp.text.strip()
         if not msg:
             return
-        inp.value = ""
+        inp.clear()
         log = self.query_one("#chat-log", RichLog)
-        log.write(f"\n[bold #da7756]you:[/] {msg}")
+        display = msg.replace("\n", " ↵ ")
+        log.write(f"\n[bold #da7756]you:[/] {display}")
         self.history.append({"role": "user", "content": msg})
         self._thinking = True
         self._stream_response(msg)

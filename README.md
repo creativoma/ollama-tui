@@ -2,7 +2,7 @@
 
 A slick terminal interface for managing your local Ollama models — browse, chat, download and delete models without leaving the terminal.
 
-![Python](https://img.shields.io/badge/python-3.10+-blue) ![Textual](https://img.shields.io/badge/TUI-Textual-green) ![Ollama](https://img.shields.io/badge/requires-Ollama-orange) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
+![Version](https://img.shields.io/github/v/release/creativoma/ollama-tui) ![Python](https://img.shields.io/badge/python-3.10+-blue) ![Textual](https://img.shields.io/badge/TUI-Textual-green) ![Ollama](https://img.shields.io/badge/requires-Ollama-orange) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 ## Requirements
 
@@ -50,3 +50,7 @@ python3 ollama_tui.py
 - Delete models with a confirmation dialog
 - Auto-refresh every 30 seconds
 - Sidebar with Ollama version and model stats
+
+## Contributing
+
+PRs are welcome. Open one and I'll review it — if it makes sense, I'll merge it.

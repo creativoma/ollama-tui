@@ -200,7 +200,7 @@ class ChatScreen(Screen):
     #send-btn {
         width: 12;
         margin-left: 1;
-        height: 100%;
+        height: 3;
         background: #da7756;
         color: #0a0a0a;
         border: solid #da7756;
@@ -228,7 +228,7 @@ class ChatScreen(Screen):
         yield Static("", id="thinking-indicator")
         with Horizontal(id="input-row"):
             yield TextArea(id="chat-input")
-            yield Button("Send\nctrl+s", variant="primary", id="send-btn")
+            yield Button("Send ↵", variant="primary", id="send-btn")
         yield Footer()
 
     def on_mount(self):

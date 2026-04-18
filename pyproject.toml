@@ -4,7 +4,7 @@ build-backend = "setuptools.backends.legacy:build"
 
 [project]
 name = "ollama-tui"
-version = "0.1.0"
+version = "1.0.0"
 description = "A terminal UI for chatting with Ollama models"
 requires-python = ">=3.10"
 dependencies = [
